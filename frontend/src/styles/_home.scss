@@ -1,0 +1,17 @@
+/** @format */
+
+.home-container {
+	height: 88vh;
+	display: grid;
+	align-items: center;
+	grid-template-columns: 1fr 1fr;
+	&-left {
+	}
+	&-right {
+		text-align: end;
+		height: 100%;
+		img {
+			margin-top: 25%;
+		}
+	}
+}
