@@ -11,9 +11,12 @@ const Home = props => {
 	return (
 		<div className='home-container'>
 			<div className='home-container-left'>
-				<h2>Virtual Classroom</h2>
+				<h1>Virtual Classroom</h1>
 				<p>A online platform for better education experience.</p>
-				<button onClick={goToLogin}>Explore</button>
+				<br />
+				<button className='home-container-left__btn' onClick={goToLogin}>
+					Explore
+				</button>
 			</div>
 			<div className='home-container-right'>
 				<img src={image1} alt='home' width='80%' height='75%' />

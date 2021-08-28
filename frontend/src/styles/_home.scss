@@ -6,6 +6,21 @@
 	align-items: center;
 	grid-template-columns: 1fr 1fr;
 	&-left {
+		h1 {
+			margin-bottom: 10px;
+		}
+		&__btn {
+			font-size: 20px;
+			padding: 10px 20px;
+			background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+			background-size: 400% 400%;
+			animation: Gradient 6s ease infinite;
+			font-weight: 500;
+			border: none;
+			color: white;
+			border-radius: 15px;
+			cursor: pointer;
+		}
 	}
 	&-right {
 		text-align: end;
