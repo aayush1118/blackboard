@@ -7,6 +7,9 @@ import Login from './containers/Login';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import StudentHome from './containers/student/Home';
 import ClassMates from './containers/student/ClassMates';
+import Classroom from './containers/student/Classroom';
+import Assignments from './containers/student/Assignment';
+import Test from './containers/student/Test';
 
 // import Login from './screens/Login';
 // import { auth, db } from './firebase';
@@ -40,6 +43,9 @@ function App() {
 					<Route exact path='/login' component={Login} />
 					<Route exact path='/student' component={StudentHome} />
 					<Route exact path='/student/classmates' component={ClassMates} />
+					<Route exact path='/student/classroom' component={Classroom} />
+					<Route exact path='/student/assignments' component={Assignments} />
+					<Route exact path='/student/test' component={Test} />
 					{/* 
 					<Route
 						path='/c/:id'

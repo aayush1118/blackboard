@@ -95,6 +95,43 @@
 .c-student-classmates {
 	height: 100%;
 	overflow-y: scroll;
+	&__subjects {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-column-gap: 15px;
+	}
+	.c-subject-card {
+		border: 1px solid #aeaeae;
+		border-radius: 8px;
+		background-color: white;
+		&__topbar {
+			padding: 5%;
+			border-radius: 7px 7px 0 0px;
+			background-color: #566e79;
+			color: white;
+			h3 {
+				font-weight: 500;
+				margin-bottom: 6px;
+			}
+		}
+		&__img-wrapper {
+			text-align: end;
+			margin-top: -15%;
+			padding: 10px;
+			img {
+				border-radius: 50%;
+				width: 80px;
+				height: 80px;
+			}
+		}
+		&__btn {
+			width: 100%;
+			text-align: center;
+			padding: 15px;
+			cursor: pointer;
+			border-top: 1px solid #aeaeae;
+		}
+	}
 }
 
 .c-longcard {
@@ -107,5 +144,10 @@
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
+	}
+	&__options {
+		display: flex;
+		gap: 15px;
+		margin-left: auto;
 	}
 }
