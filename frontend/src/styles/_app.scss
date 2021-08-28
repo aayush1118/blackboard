@@ -1,9 +1,45 @@
 /** @format */
+@import url('https://fonts.googleapis.com/css?family=Jura:400');
 
 * {
 	box-sizing: border-box;
+	font-family: Jura, Arial;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin: 0;
 }
 .c-layout {
 	padding: 1% 4%;
 	height: 96vh;
+}
+.card {
+	padding: 5%;
+	border-radius: 8px;
+	background-color: white;
+}
+
+.c-logout-btn {
+	margin: 12px 0;
+	background-color: orange;
+	border-radius: 25px;
+	padding: 4% 8%;
+	border: none;
+	color: white;
+	cursor: pointer;
+}
+.hoverScale {
+	&:hover {
+		transform: scale(1.05);
+	}
 }

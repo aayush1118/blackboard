@@ -1,15 +1,25 @@
 /** @format */
 
 import React, { Component, useState } from 'react';
+import { withLayout } from '../components/Layout';
 import '../styles/_login.scss';
 
-const Login = () => {
+const Login = props => {
+	const { history } = props;
 	const [currentView, setCurrentView] = useState('signUp');
+
+	const handleLogin = () => {
+		history.push('/student');
+	};
 	const view = () => {
 		switch (currentView) {
 			case 'signUp':
 				return (
 					<form>
+						<div className='c-login__top-bar'>
+							<div>Student</div>
+							<div>Teacher</div>
+						</div>
 						<h2>Sign Up!</h2>
 						<fieldset>
 							<legend>Create Account</legend>
@@ -28,13 +38,12 @@ const Login = () => {
 								</li>
 							</ul>
 						</fieldset>
-						<button>Submit</button>
+						<button onClick={handleLogin}>Submit</button>
 						<button type='button' onClick={() => setCurrentView('logIn')}>
 							Have an Account?
 						</button>
 					</form>
 				);
-				break;
 			case 'logIn':
 				return (
 					<form>
@@ -64,7 +73,6 @@ const Login = () => {
 						</button>
 					</form>
 				);
-				break;
 			case 'PWReset':
 				return (
 					<form>

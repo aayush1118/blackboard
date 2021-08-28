@@ -5,6 +5,8 @@ import './styles/_app.scss';
 import Home from './containers/Home';
 import Login from './containers/Login';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import StudentHome from './containers/student/Home';
+import ClassMates from './containers/student/ClassMates';
 
 // import Login from './screens/Login';
 // import { auth, db } from './firebase';
@@ -36,6 +38,8 @@ function App() {
 				<Switch>
 					<Route exact path='/' component={Home} />
 					<Route exact path='/login' component={Login} />
+					<Route exact path='/student' component={StudentHome} />
+					<Route exact path='/student/classmates' component={ClassMates} />
 					{/* 
 					<Route
 						path='/c/:id'

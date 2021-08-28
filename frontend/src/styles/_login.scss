@@ -1,24 +1,5 @@
 /** @format */
 
-@import url('https://fonts.googleapis.com/css?family=Jura:400');
-* {
-	font-family: Jura, Arial;
-	font-weight: 400;
-}
-body {
-	margin: 0;
-	padding: 0;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-	margin: 0;
-}
-
 section#entry-page {
 	display: grid;
 	grid-template-columns: 1fr minmax(200px, 400px) 1fr;
@@ -101,6 +82,21 @@ section#entry-page {
 		}
 	}
 }
+
+.c-login__top-bar {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 4px;
+	div {
+		text-align: center;
+		cursor: pointer;
+		background-color: rgba(255, 255, 255, 0.9);
+		padding: 6px 0;
+		border-radius: 5px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+}
+
 @media only screen and (min-width: 420px) {
 	form {
 		h2 {
