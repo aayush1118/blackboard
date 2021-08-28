@@ -1,55 +1,58 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 //initialize env variables
 require('dotenv').config();
 
 //init express app
 const app = express();
-app.use(session({ secret: process.env.SESSION_SECRET }));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+//use cookies
+app.use(cookieParser());
+
+//mongoose setup
+const db = require('./models');
+const db_URI = process.env.db_URI || 'mongodb://localhost:27017/blackboard';
+//connenct to db
+db.mongoose
+	.connect(db_URI, {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+	})
+	.then(() => {
+		console.log('Successfully connect to MongoDB.');
+	})
+	.catch(err => {
+		console.error('Connection error', err);
+		process.exit();
+	});
+
+//auth init
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 //configure port
 const PORT = 5000;
 
-require('./auth');
-
-//check if user is logged in
-const isLoggedIn = (req, res, next) => {
-	req.user ? next() : res.sendStatus(401);
-};
+require('./helper/auth');
 
 app.get('/', (req, res) => {
 	res.send('<a href="/auth/google">Authenticate with google</a>');
 });
 
-app.get(
-	'/auth/google',
-	passport.authenticate('google', { scope: ['email', 'profile'] })
-);
+require('./routes/auth.route')(app);
 
-app.get(
-	'/google/callback',
-	passport.authenticate('google', {
-		successRedirect: '/protected',
-		failureRedirect: '/auth/failure',
-	})
-);
-
-app.get('/auth/failure', (req, res) => {
-	res.send('something went wrong');
-});
-
-app.get('/protected', isLoggedIn, (req, res) => {
-	res.send(
-		`Logged in as ${req.user.displayName} <br> <a href="/logout">Logout</a>`
-	);
-});
-
-app.get('/logout', (req, res) => {
-	req.logout();
-	req.session.destroy();
-	res.send('logged out');
-});
+// app.get('/protected', isLoggedIn, (req, res) => {
+// 	res.send(
+// 		`Logged in as ${req.user.displayName} <br> <a href="/logout">Logout</a>`
+// 	);
+// });
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
