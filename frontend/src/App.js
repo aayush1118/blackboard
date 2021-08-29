@@ -9,6 +9,7 @@ import StudentHome from './containers/student/Home';
 import ClassMates from './containers/student/ClassMates';
 import Classroom from './containers/student/Classroom';
 import Assignments from './containers/student/Assignment';
+import Schedule from './containers/student/Schedule';
 import Test from './containers/student/Test';
 
 // import Login from './screens/Login';
@@ -43,6 +44,7 @@ function App() {
 					<Route exact path='/login' component={Login} />
 					<Route exact path='/student' component={StudentHome} />
 					<Route exact path='/student/classmates' component={ClassMates} />
+					<Route exact path='/student/schedule' component={Schedule} />
 					<Route exact path='/student/classroom' component={Classroom} />
 					<Route exact path='/student/assignments' component={Assignments} />
 					<Route exact path='/student/test' component={Test} />
