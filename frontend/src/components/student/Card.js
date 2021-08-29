@@ -1,8 +1,34 @@
 /** @format */
 
 import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { callHttp } from '../../utility/callHttp';
 
-export default function Card() {
+export default function Card(props) {
+	const { history } = props;
+
+	const handleLogOut = event => {
+		history.push('/login');
+
+		event.preventDefault();
+		callHttp({
+			url: `/auth/logout`,
+			method: 'GET',
+		})
+			.then(res => {
+				if (res.status == 200) {
+					toast.success('Logout Successfully!');
+					history.push('/login');
+				} else {
+					toast.error('Something went wrong!');
+				}
+			})
+			.catch(err => {
+				toast.error('Something went wrong!');
+			});
+		// notify();
+		// history.push('/student');
+	};
 	return (
 		<div className='c-card'>
 			<h2>Profile</h2>
@@ -13,7 +39,9 @@ export default function Card() {
 			<h3>Akshat Aggarwal</h3>
 			<div>00615003118</div>
 			<div>B.Tech | 4th Year</div>
-			<button className='c-logout-btn hoverScale'>Logout</button>
+			<button className='c-logout-btn hoverScale' onClick={handleLogOut}>
+				Logout
+			</button>
 		</div>
 	);
 }

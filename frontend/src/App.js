@@ -11,6 +11,8 @@ import Classroom from './containers/student/Classroom';
 import Assignments from './containers/student/Assignment';
 import Schedule from './containers/student/Schedule';
 import Test from './containers/student/Test';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // import Login from './screens/Login';
 // import { auth, db } from './firebase';

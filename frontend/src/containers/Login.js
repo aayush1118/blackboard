@@ -3,42 +3,136 @@
 import React, { Component, useState } from 'react';
 import { withLayout } from '../components/Layout';
 import '../styles/_login.scss';
+import { ToastContainer, toast } from 'react-toastify';
+import { callHttp } from '../utility/callHttp';
 
 const Login = props => {
 	const { history } = props;
-	const [currentView, setCurrentView] = useState('signUp');
+	const [currentView, setCurrentView] = useState('logIn');
+	const [firstname, setFirstname] = useState('');
+	const [lastname, setLastname] = useState('');
+	const [email, setEmail] = useState('a@gmail.com');
+	const [password, setPassword] = useState('11111111');
+	const [role, setRole] = useState('student');
 
-	const handleLogin = () => {
-		history.push('/student');
+	const _h = func => e => func(e.target.value);
+
+	const roles = ['student', 'teacher'];
+	const handleRegister = event => {
+		event.preventDefault();
+		callHttp({
+			url: `/auth/local/signup`,
+			method: 'POST',
+			data: {
+				firstname,
+				lastname,
+				email,
+				password,
+			},
+		})
+			.then(res => {
+				if (res.status == 200) {
+					toast.success('Register Successfully!');
+					history.push('/student');
+				} else {
+					toast.error('Something went wrong!');
+				}
+			})
+			.catch(err => {
+				toast.error('Something went wrong!');
+			});
+		// notify();
+		// history.push('/student');
 	};
+	const handleLogin = event => {
+		event.preventDefault();
+		callHttp({
+			url: `/auth/local/signin`,
+			method: 'POST',
+			data: {
+				username: email,
+				password,
+			},
+		})
+			.then(res => {
+				if (res.status == 200) {
+					toast.success('Login Successfully!');
+					history.push('/student');
+				} else {
+					toast.error('Something went wrong!');
+				}
+			})
+			.catch(err => {
+				toast.error('Something went wrong!');
+			});
+		// notify();
+		// history.push('/student');
+	};
+
+	const topBar = (
+		<div className='c-login__top-bar'>
+			{roles.map(_role => (
+				<div
+					onClick={() => setRole(_role)}
+					className={role == _role ? 'c-login__top-bar--selected' : ''}>
+					{_role}
+				</div>
+			))}
+		</div>
+	);
 	const view = () => {
 		switch (currentView) {
 			case 'signUp':
 				return (
 					<form>
-						<div className='c-login__top-bar'>
-							<div>Student</div>
-							<div>Teacher</div>
-						</div>
+						{topBar}
 						<h2>Sign Up!</h2>
 						<fieldset>
 							<legend>Create Account</legend>
 							<ul>
 								<li>
-									<label for='username'>Username:</label>
-									<input type='text' id='username' required />
+									<label for='firstname'>First Name:</label>
+									<input
+										type='text'
+										id='firstname'
+										value={firstname}
+										onChange={_h(setFirstname)}
+										required
+									/>
+								</li>
+								<li>
+									<label for='lastname'>Last Name:</label>
+									<input
+										type='text'
+										id='lastname'
+										value={lastname}
+										onChange={_h(setLastname)}
+										required
+									/>
 								</li>
 								<li>
 									<label for='email'>Email:</label>
-									<input type='email' id='email' required />
+									<input
+										type='email'
+										id='email'
+										value={email}
+										onChange={_h(setEmail)}
+										required
+									/>
 								</li>
 								<li>
 									<label for='password'>Password:</label>
-									<input type='password' id='password' required />
+									<input
+										type='password'
+										id='password'
+										value={password}
+										onChange={_h(setPassword)}
+										required
+									/>
 								</li>
 							</ul>
 						</fieldset>
-						<button onClick={handleLogin}>Submit</button>
+						<button onClick={handleRegister}>Register</button>
 						<button type='button' onClick={() => setCurrentView('logIn')}>
 							Have an Account?
 						</button>
@@ -47,27 +141,40 @@ const Login = props => {
 			case 'logIn':
 				return (
 					<form>
+						{topBar}
 						<h2>Welcome Back!</h2>
 						<fieldset>
 							<legend>Log In</legend>
 							<ul>
 								<li>
-									<label for='username'>Username:</label>
-									<input type='text' id='username' required />
+									<label for='email'>Email:</label>
+									<input
+										type='email'
+										id='email'
+										value={email}
+										onChange={_h(setEmail)}
+										required
+									/>
 								</li>
 								<li>
 									<label for='password'>Password:</label>
-									<input type='password' id='password' required />
+									<input
+										type='password'
+										id='password'
+										value={password}
+										onChange={_h(setPassword)}
+										required
+									/>
 								</li>
-								<li>
+								{/* <li>
 									<i />
 									<a onClick={() => setCurrentView('PWReset')} href='#'>
 										Forgot Password?
 									</a>
-								</li>
+								</li> */}
 							</ul>
 						</fieldset>
-						<button>Login</button>
+						<button onClick={handleLogin}>Login</button>
 						<button type='button' onClick={() => setCurrentView('signUp')}>
 							Create an Account
 						</button>
@@ -99,7 +206,22 @@ const Login = props => {
 				break;
 		}
 	};
-	return <section id='entry-page'>{view()}</section>;
+	return (
+		<section id='entry-page'>
+			<ToastContainer
+				position='top-center'
+				autoClose={2000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss={false}
+				draggable={false}
+				pauseOnHover={false}
+			/>
+			{view()}
+		</section>
+	);
 };
 
 export default Login;

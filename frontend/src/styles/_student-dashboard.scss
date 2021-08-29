@@ -154,3 +154,27 @@
 .c-student-schedule {
 	background: white;
 }
+
+.c-attendance-card {
+	padding: 10px 20px;
+	background: #232630;
+	color: white;
+	width: 75%;
+	border-radius: 8px;
+
+	&__boxes {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		padding-top: 1rem;
+
+		&-box {
+			&-number {
+				font-size: 20px;
+				font-weight: 600;
+			}
+			&-caption {
+				font-size: 12px;
+			}
+		}
+	}
+}
