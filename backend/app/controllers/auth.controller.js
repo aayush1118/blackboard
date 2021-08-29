@@ -15,25 +15,21 @@ exports.signup = (req, res) => {
 
 	user.save(async (err, user) => {
 		if (err) {
-			res.status(500).send({ message: err });
+			res.send({ success: false, message: err });
 			return;
 		}
 
 		if (req.body.roles) {
 			Role.find({ name: { $in: req.body.roles } }, (err, roles) => {
 				if (err) {
-					res.status(500).send({
-						message: err,
-					});
+					res.send({ success: false, message: err });
 					return;
 				}
 
 				user.roles = roles.map(role => role._id);
 				user.save(err => {
 					if (err) {
-						res.status(500).send({
-							message: err,
-						});
+						res.send({ success: false, message: err });
 						return;
 					}
 				});
@@ -41,16 +37,14 @@ exports.signup = (req, res) => {
 		} else {
 			Role.findOne({ name: 'student' }, (err, role) => {
 				if (err) {
-					res.status(500).send({ message: err });
+					res.send({ success: false, message: err });
 					return;
 				}
 
 				user.roles = [role._id];
 				user.save(err => {
 					if (err) {
-						res.status(500).send({
-							message: err,
-						});
+						res.send({ success: false, message: err });
 						return;
 					}
 				});
@@ -62,14 +56,19 @@ exports.signup = (req, res) => {
 		});
 
 		const refreshToken = await RefreshToken.createToken(user);
-
-		res.status(200).send({
+		const data = {
 			id: user._id,
 			firstname: user.firstname,
 			lastname: user.lastname,
 			email: user.email,
 			accessToken: token,
 			refreshToken: refreshToken,
+		};
+
+		res.send({
+			success: true,
+			message: 'created account successfully',
+			data,
 		});
 	});
 };
@@ -81,12 +80,15 @@ exports.signin = (req, res) => {
 		.populate('roles', '-__v')
 		.exec(async (err, user) => {
 			if (err) {
-				res.status(500).send({ message: err });
+				res.send({ success: false, message: err });
 				return;
 			}
 
 			if (!user) {
-				return res.status(404);
+				return res.send({
+					success: false,
+					message: 'something went wrong!',
+				});
 			}
 
 			const passwordIsValid = bcrypt.compareSync(
@@ -95,8 +97,10 @@ exports.signin = (req, res) => {
 			);
 
 			if (!passwordIsValid) {
-				return res.status(401).send({
-					accessToken: null,
+				return res.send({
+					success: false,
+					message: err,
+					data: { accessToken: null },
 				});
 			}
 
@@ -111,7 +115,7 @@ exports.signin = (req, res) => {
 			for (let i = 0; i < user.roles.length; i++) {
 				authorities.push('ROLE_' + user.roles[i].name.toUpperCase());
 			}
-			res.status(200).send({
+			const data = {
 				id: user._id,
 				firstname: user.firstname,
 				lastname: user.lastname,
@@ -119,7 +123,8 @@ exports.signin = (req, res) => {
 				roles: authorities,
 				accessToken: token,
 				refreshToken: refreshToken,
-			});
+			};
+			res.send({ success: false, message: err, data });
 		});
 };
 
@@ -127,7 +132,10 @@ exports.refreshToken = async (req, res) => {
 	const { refreshToken: requestToken } = req.body;
 
 	if (requestToken == null) {
-		return res.status(403).json({ message: 'Refresh Token is required!' });
+		return res.send({
+			success: false,
+			message: 'Refresh Token is required!',
+		});
 	}
 
 	try {
@@ -136,10 +144,10 @@ exports.refreshToken = async (req, res) => {
 		});
 
 		if (!refreshToken) {
-			res.status(403).json({
+			return res.send({
+				success: false,
 				message: 'invalid refresh token!',
 			});
-			return;
 		}
 
 		if (RefreshToken.verifyExpiration(refreshToken)) {
@@ -147,7 +155,8 @@ exports.refreshToken = async (req, res) => {
 				useFindAndModify: false,
 			}).exec();
 
-			res.status(403).json({
+			res.send({
+				success: false,
 				message:
 					'Refresh token was expired. Please make a new signIn request',
 			});
@@ -160,12 +169,14 @@ exports.refreshToken = async (req, res) => {
 			{ expiresIn: config.jwtExpiration }
 		);
 
-		return res.status(200).json({
+		const data = {
 			accessToken: newAccessToken,
 			refreshToken: refreshToken.token,
-		});
+		};
+
+		return res.send({ success: true, message: 'success', data });
 	} catch (err) {
-		return res.status(500).send({ message: err });
+		return res.send({ success: false, message: err });
 	}
 };
 
@@ -176,12 +187,13 @@ exports.reset = (req, res) => {
 		.populate('roles', '-__v')
 		.exec(async (err, user) => {
 			if (err) {
-				res.status(500).send({ message: err });
+				res.send({ success: false, message: err });
 				return;
 			}
 
 			if (!user) {
-				return res.status(404).send({ message: 'User Not found.' });
+				res.send({ success: false, message: 'User Not found.' });
+				return;
 			}
 
 			const passwordIsValid = bcrypt.compareSync(
@@ -190,10 +202,8 @@ exports.reset = (req, res) => {
 			);
 
 			if (!passwordIsValid) {
-				return res.status(401).send({
-					accessToken: null,
-					message: 'Invalid Password!',
-				});
+				res.send({ success: false, message: 'Invalid Password!' });
+				return;
 			}
 			const updatedUser = await User.findByIdAndUpdate(
 				user._id,
@@ -209,7 +219,7 @@ exports.reset = (req, res) => {
 
 			const refreshToken = await RefreshToken.createToken(updatedUser);
 
-			res.status(200).send({
+			const data = {
 				id: updatedUser._id,
 				firstname: updatedUser.firstname,
 				lastname: updatedUser.lastname,
@@ -217,6 +227,11 @@ exports.reset = (req, res) => {
 				roles: user.roles,
 				accessToken: token,
 				refreshToken: refreshToken,
+			};
+			res.send({
+				success: false,
+				message: 'User password changed!',
+				data,
 			});
 		});
 };
