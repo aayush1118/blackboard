@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const User = mongoose.model(
 	'User',
 	new mongoose.Schema({
-		id: { type: String, default: null },
+		id: {
+			type: String,
+			default: null,
+		},
 		email: {
 			type: String,
 			required: [true, 'email required'],
@@ -13,9 +16,6 @@ const User = mongoose.model(
 		lastName: String,
 		password: String,
 		source: { type: String, required: [true, 'source not specified'] },
-		role: { type: String, default: 'student' },
-		profilePhoto: String,
-		// lastVisited: { type: Date, default: new Date() },
 	})
 );
 
