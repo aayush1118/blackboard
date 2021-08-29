@@ -21,7 +21,7 @@ const Login = props => {
 	const handleRegister = event => {
 		event.preventDefault();
 		callHttp({
-			url: `/auth/local/signup`,
+			url: `/auth/signup`,
 			method: 'POST',
 			data: {
 				firstname,
@@ -47,7 +47,7 @@ const Login = props => {
 	const handleLogin = event => {
 		event.preventDefault();
 		callHttp({
-			url: `/auth/local/signin`,
+			url: `/auth/signin`,
 			method: 'POST',
 			data: {
 				username: email,
