@@ -1,0 +1,180 @@
+/** @format */
+.c-student-layout {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	height: 100vh;
+	grid-column-gap: 2%;
+	padding: 4% 2%;
+	background-color: #50e2e3;
+	background-image: radial-gradient(
+			at 47% 33%,
+			hsl(249.55, 77%, 11%) 0,
+			transparent 19%
+		),
+		radial-gradient(at 82% 65%, hsl(282.28, 100%, 50%) 0, transparent 55%);
+}
+.c-student-home {
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	grid-column-gap: 2%;
+}
+.c-student-sidebar {
+	// padding: ;
+	width: 100%;
+	height: 100%;
+
+	&__option {
+		padding: 4% 8%;
+		margin-bottom: 12%;
+		display: flex;
+		gap: 5%;
+		cursor: pointer;
+		// color: white;
+
+		backdrop-filter: blur(1px) saturate(165%);
+		-webkit-backdrop-filter: blur(1px) saturate(165%);
+		background-color: rgba(255, 255, 255, 0.59);
+		border-radius: 12px;
+		border: 1px solid rgba(209, 213, 219, 0.3);
+	}
+}
+
+.c-student-dashboard {
+	background-color: white;
+	width: 100%;
+	border-radius: 8px;
+}
+.c-student-profile {
+	width: 100%;
+}
+
+.c-card {
+	background-color: white;
+	text-align: center;
+	padding: 5%;
+	min-height: 250px;
+	border-radius: 8px;
+	margin-bottom: 12px;
+	h2 {
+		margin-bottom: 12px;
+		font-weight: 600;
+	}
+	img {
+		width: 80px;
+		height: 80px;
+	}
+	h3 {
+		margin: 10px 0;
+	}
+}
+.c-latest-activity {
+	padding: 5%;
+	border-radius: 8px;
+	width: 100%;
+	background-color: white;
+	h4 {
+		border-bottom: 1px solid #aeaeae;
+		padding-bottom: 6px;
+		margin-bottom: 16px;
+	}
+	div {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	p {
+		font-size: 15px;
+		margin: 8px 0;
+	}
+	svg {
+		color: #e9737d;
+		cursor: pointer;
+	}
+}
+
+.c-student-classmates {
+	height: 100%;
+	overflow-y: scroll;
+	&__subjects {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-column-gap: 15px;
+	}
+	.c-subject-card {
+		border: 1px solid #aeaeae;
+		border-radius: 8px;
+		background-color: white;
+		&__topbar {
+			padding: 5%;
+			border-radius: 7px 7px 0 0px;
+			background-color: #566e79;
+			color: white;
+			h3 {
+				font-weight: 500;
+				margin-bottom: 6px;
+			}
+		}
+		&__img-wrapper {
+			text-align: end;
+			margin-top: -15%;
+			padding: 10px;
+			img {
+				border-radius: 50%;
+				width: 80px;
+				height: 80px;
+			}
+		}
+		&__btn {
+			width: 100%;
+			text-align: center;
+			padding: 15px;
+			cursor: pointer;
+			border-top: 1px solid #aeaeae;
+		}
+	}
+}
+
+.c-longcard {
+	width: 100%;
+	padding: 16px 0;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	img {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+	}
+	&__options {
+		display: flex;
+		gap: 15px;
+		margin-left: auto;
+	}
+}
+.c-student-schedule {
+	background: white;
+}
+
+.c-attendance-card {
+	padding: 10px 20px;
+	background: #232630;
+	color: white;
+	width: 75%;
+	border-radius: 8px;
+
+	&__boxes {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		padding-top: 1rem;
+
+		&-box {
+			&-number {
+				font-size: 20px;
+				font-weight: 600;
+			}
+			&-caption {
+				font-size: 12px;
+			}
+		}
+	}
+}
