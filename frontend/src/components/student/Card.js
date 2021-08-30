@@ -8,24 +8,26 @@ export default function Card(props) {
 	const { history } = props;
 
 	const handleLogOut = event => {
+		localStorage.removeItem('auth');
 		history.push('/login');
+		toast.success('Logout Successfully!');
 
 		event.preventDefault();
-		callHttp({
-			url: `/auth/logout`,
-			method: 'GET',
-		})
-			.then(res => {
-				if (res.status == 200) {
-					toast.success('Logout Successfully!');
-					history.push('/login');
-				} else {
-					toast.error('Something went wrong!');
-				}
-			})
-			.catch(err => {
-				toast.error('Something went wrong!');
-			});
+		// callHttp({
+		// 	url: `/auth/logout`,
+		// 	method: 'GET',
+		// })
+		// 	.then(res => {
+		// 		if (res.status == 200) {
+		// 			toast.success('Logout Successfully!');
+		// 			history.push('/login');
+		// 		} else {
+		// 			toast.error('Something went wrong!');
+		// 		}
+		// 	})
+		// 	.catch(err => {
+		// 		toast.error('Something went wrong!');
+		// 	});
 		// notify();
 		// history.push('/student');
 	};

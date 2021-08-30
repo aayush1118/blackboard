@@ -4,10 +4,7 @@ import Sidebar from './student/Sidebar';
 
 export const withStudentLayout = ComposedComponent =>
 	class extends React.Component {
-		componentDidMount() {
-			const auth = JSON.parse(localStorage.getItem('auth'));
-			if (!auth) this.props.history.push('/login');
-		}
+		componentDidMount() {}
 		render() {
 			return (
 				<div className='c-student-layout'>

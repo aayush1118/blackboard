@@ -41,6 +41,17 @@ function App() {
 	return (
 		<Router>
 			<div>
+				<ToastContainer
+					position='top-center'
+					autoClose={2000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss={false}
+					draggable={false}
+					pauseOnHover={false}
+				/>
 				<Switch>
 					<Route exact path='/' component={Home} />
 					<Route exact path='/login' component={Login} />

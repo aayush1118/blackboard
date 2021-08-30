@@ -5,7 +5,6 @@ import { baseUrl } from '../projectSettings';
 
 export const callHttp = async ({ method = 'get', url, data, options }) => {
 	try {
-		console.log('http', data);
 		const auth = JSON.parse(localStorage.getItem('auth'));
 		let headers = {
 			Accept: 'application/json',

@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { withLayout } from '../components/Layout';
 import '../styles/_login.scss';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,11 +11,17 @@ const Login = props => {
 	const [currentView, setCurrentView] = useState('logIn');
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
-	const [email, setEmail] = useState('a@gmail.com');
+	const [email, setEmail] = useState('a1@gmail.com');
 	const [password, setPassword] = useState('11111111');
 	const [role, setRole] = useState('student');
 
 	const _h = func => e => func(e.target.value);
+
+	const auth = JSON.stringify(localStorage.getItem('auth'));
+
+	useEffect(() => {
+		if (auth && auth.accessToken) history.push('/student');
+	}, []);
 
 	const roles = ['student', 'teacher'];
 	const handleRegister = event => {
@@ -33,12 +39,13 @@ const Login = props => {
 			.then(res => {
 				if (res.status == 200) {
 					toast.success('Register Successfully!');
+					localStorage.setItem('auth', JSON.stringify(res.data));
 					history.push('/student');
 				} else {
-					toast.error('Something went wrong!');
+					toast.error(res.data?.message || 'Something went wrong!');
 				}
 			})
-			.catch(err => {
+			.catch(res => {
 				toast.error('Something went wrong!');
 			});
 		// notify();
@@ -50,13 +57,14 @@ const Login = props => {
 			url: `/auth/signin`,
 			method: 'POST',
 			data: {
-				username: email,
+				email,
 				password,
 			},
 		})
 			.then(res => {
 				if (res.status == 200) {
 					toast.success('Login Successfully!');
+					localStorage.setItem('auth', JSON.stringify(res.data));
 					history.push('/student');
 				} else {
 					toast.error('Something went wrong!');
@@ -65,8 +73,6 @@ const Login = props => {
 			.catch(err => {
 				toast.error('Something went wrong!');
 			});
-		// notify();
-		// history.push('/student');
 	};
 
 	const topBar = (
@@ -206,22 +212,8 @@ const Login = props => {
 				break;
 		}
 	};
-	return (
-		<section id='entry-page'>
-			<ToastContainer
-				position='top-center'
-				autoClose={2000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable={false}
-				pauseOnHover={false}
-			/>
-			{view()}
-		</section>
-	);
+
+	return <section id='entry-page'>{view()}</section>;
 };
 
 export default Login;
