@@ -8,19 +8,23 @@ const { TokenExpiredError } = jwt;
 
 const catchError = (err, res) => {
 	if (err instanceof TokenExpiredError) {
-		return res
-			.status(401)
-			.send({ message: 'Unauhtorized! Access Token was expired!' });
+		return res.send({
+			success: false,
+			message: 'Unauhtorized! Access Token was expired!',
+		});
 	}
 
-	return res.sendStatus(401).send({ message: 'Unauthorized!' });
+	return res.send({ success: false, message: 'Unauthorized!' });
 };
 
 verifyToken = (req, res, next) => {
 	let token = req.headers['x-access-token'];
 
 	if (!token) {
-		return res.status(403).send({ message: 'No token provided!' });
+		return res.send({
+			success: false,
+			message: 'No token provided!',
+		});
 	}
 
 	jwt.verify(token, config.secret, (err, decoded) => {
@@ -35,7 +39,7 @@ verifyToken = (req, res, next) => {
 isProfessor = (req, res, next) => {
 	User.findById(req.userId).exec((err, user) => {
 		if (err) {
-			res.status(500).send({ message: err });
+			res.send({ success: false, message: err });
 			return;
 		}
 
@@ -45,7 +49,8 @@ isProfessor = (req, res, next) => {
 			},
 			(err, roles) => {
 				if (err) {
-					res.status(500).send({ message: err });
+					res.send({ success: false, message: err });
+
 					return;
 				}
 				for (let i = 0; i < roles.length; i++) {
@@ -54,7 +59,11 @@ isProfessor = (req, res, next) => {
 						return;
 					}
 				}
-				res.status(403).send({ message: 'Require Professor Role!' });
+				res.send({
+					success: false,
+					message: 'Require Professor Role!',
+				});
+
 				return;
 			}
 		);
