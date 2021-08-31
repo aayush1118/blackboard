@@ -23,6 +23,7 @@ export default function SubjectCard(props) {
 						{moment(timings[0].end).format('HH:MM A')}
 					</div>
 				)}
+				<div>M | T | W | T | F</div>
 				<div>Code: {code}</div>
 			</div>
 
