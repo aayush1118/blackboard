@@ -44,3 +44,13 @@ p {
 		transform: scale(1.05);
 	}
 }
+
+.one-line {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.text-center {
+	text-align: center;
+}

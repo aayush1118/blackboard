@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { callHttp } from '../../utility/callHttp';
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 
-export default function SubjectForm(props) {
+export default function SubjectForm({ setViewScreen, setResData }) {
 	const [name, setName] = useState('');
 	const [value, onChange] = useState(['10:00', '11:00']);
 
@@ -24,6 +24,8 @@ export default function SubjectForm(props) {
 			.then(res => {
 				if (res.status == 200 && res.data.success) {
 					toast.success('Subject Created Successfully!');
+					setResData(res.data.data);
+					setViewScreen('done');
 					// localStorage.setItem('auth', JSON.stringify(res.data.data));
 					// history.push(`/${role}`);
 				} else {
@@ -51,11 +53,9 @@ export default function SubjectForm(props) {
 				</div>
 
 				<div className='c-student-settings__btn-wrapper '>
-					{
-						<button className='c-logout-btn hoverScale' onClick={handleCreate}>
-							Create
-						</button>
-					}
+					<button className='c-logout-btn hoverScale' onClick={handleCreate}>
+						Create
+					</button>
 				</div>
 			</div>
 		</div>

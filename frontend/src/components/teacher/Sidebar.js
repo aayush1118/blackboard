@@ -20,36 +20,36 @@ export default function Sidebar(props) {
 			name: 'Home',
 			route: '/',
 		},
-		{
-			icon: faUsers,
-			name: 'Subjects',
-			route: '/subjects',
-		},
+		// {
+		// 	icon: faUsers,
+		// 	name: 'Subjects',
+		// 	route: '/subjects',
+		// },
 		// {
 		// 	icon: faClock,
 		// 	name: 'Schedule',
 		// 	route: '/schedule',
 		// },
-		{
-			icon: faBook,
-			name: 'Assignments',
-			route: '/assignments',
-		},
+		// {
+		// 	icon: faBook,
+		// 	name: 'Assignments',
+		// 	route: '/assignments',
+		// },
 		// {
 		// 	icon: faFileAlt,
 		// 	name: 'Test',
 		// 	route: '/test',
 		// },
-		{
-			icon: faUsers,
-			name: 'Classmates',
-			route: '/classmates',
-		},
-		{
-			icon: faUser,
-			name: 'Settings',
-			route: '/settings',
-		},
+		// {
+		// 	icon: faUsers,
+		// 	name: 'Classmates',
+		// 	route: '/classmates',
+		// },
+		// {
+		// 	icon: faUser,
+		// 	name: 'Settings',
+		// 	route: '/settings',
+		// },
 	];
 
 	const handleClick = route => () => history.push(`/teacher${route}`);

@@ -2,14 +2,15 @@
 
 import React from 'react';
 import { withTeacherLayout } from '../../components/TeacherLayout';
-import SDashboard from '../../components/student/Dashboard';
-import Profile from '../../components/student/Profile';
+// import SDashboard from '../../components/student/Dashboard';
+import Profile from '../../components/teacher/Profile';
 import '../../styles/_student-dashboard.scss';
+import Subjects from './Subjects';
 
 function Dashboard(props) {
 	return (
 		<div className='c-student-home'>
-			<SDashboard {...props} />
+			<Subjects {...props} />
 			<Profile {...props} />
 		</div>
 	);

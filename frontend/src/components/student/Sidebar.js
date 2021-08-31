@@ -20,11 +20,11 @@ export default function Sidebar(props) {
 			name: 'Home',
 			route: '/',
 		},
-		{
-			icon: faUsers,
-			name: 'Classroom',
-			route: '/classroom',
-		},
+		// {
+		// 	icon: faUsers,
+		// 	name: 'Classroom',
+		// 	route: '/classroom',
+		// },
 		{
 			icon: faClock,
 			name: 'Schedule',
