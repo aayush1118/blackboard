@@ -178,3 +178,26 @@
 		}
 	}
 }
+
+.c-student-settings {
+	&__btn-wrapper {
+		padding-top: 1rem;
+		text-align: center;
+	}
+	&__header {
+		display: flex;
+		justify-content: space-between;
+	}
+	&__menu {
+		overflow-y: scroll;
+	}
+	&__bars {
+		display: grid;
+		grid-template-columns: 10fr 2fr 20fr;
+		input {
+			width: 100%;
+			outline: none;
+		}
+		margin-bottom: 20px;
+	}
+}

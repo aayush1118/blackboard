@@ -22,14 +22,14 @@ export default function Sidebar(props) {
 		},
 		{
 			icon: faUsers,
-			name: 'Classroom',
-			route: '/classroom',
+			name: 'Subjects',
+			route: '/subjects',
 		},
-		{
-			icon: faClock,
-			name: 'Schedule',
-			route: '/schedule',
-		},
+		// {
+		// 	icon: faClock,
+		// 	name: 'Schedule',
+		// 	route: '/schedule',
+		// },
 		{
 			icon: faBook,
 			name: 'Assignments',
@@ -52,7 +52,7 @@ export default function Sidebar(props) {
 		},
 	];
 
-	const handleClick = route => () => history.push(`/student${route}`);
+	const handleClick = route => () => history.push(`/teacher${route}`);
 	return (
 		<div className='c-student-sidebar'>
 			{options.map(option => (

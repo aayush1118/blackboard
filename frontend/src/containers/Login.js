@@ -26,6 +26,8 @@ const Login = props => {
 	const roles = ['student', 'teacher'];
 	const handleRegister = event => {
 		event.preventDefault();
+		let _role = role;
+		if (role == 'teacher') _role = 'professor';
 		callHttp({
 			url: `/auth/signup`,
 			method: 'POST',
@@ -34,13 +36,14 @@ const Login = props => {
 				lastname,
 				email,
 				password,
+				roles: [_role],
 			},
 		})
 			.then(res => {
-				if (res.status == 200) {
+				if (res.status == 200 && res.data.success) {
 					toast.success('Register Successfully!');
-					localStorage.setItem('auth', JSON.stringify(res.data));
-					history.push('/student');
+					localStorage.setItem('auth', JSON.stringify(res.data.data));
+					history.push(`/${role}`);
 				} else {
 					toast.error(res.data?.message || 'Something went wrong!');
 				}
@@ -53,19 +56,22 @@ const Login = props => {
 	};
 	const handleLogin = event => {
 		event.preventDefault();
+		let _role = role;
+		if (role == 'teacher') _role = 'professor';
 		callHttp({
 			url: `/auth/signin`,
 			method: 'POST',
 			data: {
 				email,
 				password,
+				roles: [_role],
 			},
 		})
 			.then(res => {
-				if (res.status == 200) {
+				if (res.status == 200 && res.data.success) {
 					toast.success('Login Successfully!');
-					localStorage.setItem('auth', JSON.stringify(res.data));
-					history.push('/student');
+					localStorage.setItem('auth', JSON.stringify(res.data.data));
+					history.push(`/${role}`);
 				} else {
 					toast.error('Something went wrong!');
 				}

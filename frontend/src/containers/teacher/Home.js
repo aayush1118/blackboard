@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { withStudentLayout } from '../../components/StudentLayout';
+import { withTeacherLayout } from '../../components/TeacherLayout';
 import SDashboard from '../../components/student/Dashboard';
 import Profile from '../../components/student/Profile';
 import '../../styles/_student-dashboard.scss';
@@ -15,4 +15,4 @@ function Dashboard(props) {
 	);
 }
 
-export default withStudentLayout(Dashboard);
+export default withTeacherLayout(Dashboard);

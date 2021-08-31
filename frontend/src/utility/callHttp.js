@@ -11,8 +11,9 @@ export const callHttp = async ({ method = 'get', url, data, options }) => {
 			'Content-Type': 'application/json',
 		};
 		if (auth) {
-			const { user, token } = auth;
-			headers = { ...headers, Authorization: `Bearer ${token}` };
+			const { accessToken } = auth;
+			headers = { ...headers, 'x-access-token': accessToken };
+			// headers = { ...headers, Authorization: `Bearer ${token}` };
 		}
 		if (options && options.headers) {
 			headers = { ...headers, ...options.headers };
