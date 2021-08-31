@@ -8,7 +8,7 @@ const Profile = mongoose.model(
 		degree: String,
 		year: { type: Number, min: 1, max: 6 },
 		activity: [String],
-		subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subject' }],
+		subjects: [String],
 	})
 );
 

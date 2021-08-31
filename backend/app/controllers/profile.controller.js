@@ -1,14 +1,35 @@
 const db = require('../models');
-const { profile: Profile } = db;
+const { profile: Profile, user: User } = db;
 
 exports.getProfile = (req, res) => {
-	console.log(req.params);
 	Profile.findOne({ userId: req.params.userId }).exec((err, profile) => {
 		if (err) {
 			res.send({ success: false, message: err });
 			return;
 		}
-		res.send({ success: true, message: 'success', data: profile });
+		User.findById(req.params.userId).exec((err, user) => {
+			if (err) {
+				res.send({ success: false, message: err });
+				return;
+			}
+
+			const { userId, activity, subjects } = profile;
+			const { email, firstname, lastname } = user;
+
+			const data = {
+				userId,
+				activity,
+				subjects,
+				email,
+				firstname,
+				lastname,
+			};
+			res.send({
+				success: true,
+				message: 'success',
+				data,
+			});
+		});
 	});
 };
 
@@ -20,15 +41,17 @@ exports.updateProfile = (req, res) => {
 		activity: req.body.activity,
 		subjects: req.body.subjects,
 	};
-	Profile.findByIdAndUpdate({ userId: req.userId }, newProfile, {
-		new: true,
-	}).exec((err, profile) => {
+	Profile.findOneAndUpdate(
+		{ userId: req.userId },
+		{ ...newProfile },
+		{ new: true }
+	).exec((err, profile) => {
 		if (err) {
 			res.send({ success: false, message: err });
 			return;
 		}
 		res.send({
-			success: false,
+			success: true,
 			message: 'updated profile',
 			data: profile,
 		});

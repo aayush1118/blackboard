@@ -135,7 +135,7 @@ exports.signin = (req, res) => {
 				accessToken: token,
 				refreshToken: refreshToken,
 			};
-			res.send({ success: false, message: err, data });
+			res.send({ success: true, message: 'signed in!', data });
 		});
 };
 
@@ -240,7 +240,7 @@ exports.reset = (req, res) => {
 				refreshToken: refreshToken,
 			};
 			res.send({
-				success: false,
+				success: true,
 				message: 'User password changed!',
 				data,
 			});
