@@ -1,5 +1,5 @@
 const db = require('../models');
-const { profile: Profile } = db;
+const { profile: Profile, user: User } = db;
 
 exports.getProfile = (req, res) => {
 	Profile.findOne({ userId: req.params.userId }).exec((err, profile) => {
@@ -7,7 +7,29 @@ exports.getProfile = (req, res) => {
 			res.send({ success: false, message: err });
 			return;
 		}
-		res.send({ success: true, message: 'success', data: profile });
+		User.findById(req.params.userId).exec((err, user) => {
+			if (err) {
+				res.send({ success: false, message: err });
+				return;
+			}
+
+			const { userId, activity, subjects } = profile;
+			const { email, firstname, lastname } = user;
+
+			const data = {
+				userId,
+				activity,
+				subjects,
+				email,
+				firstname,
+				lastname,
+			};
+			res.send({
+				success: true,
+				message: 'success',
+				data,
+			});
+		});
 	});
 };
 

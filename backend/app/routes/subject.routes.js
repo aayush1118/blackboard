@@ -12,6 +12,8 @@ module.exports = function (app) {
 
 	app.get('/api/subject/join/:id', authJwt.verifyToken, controller.join);
 
+	app.get('/api/subject/:id', controller.getSubjects);
+
 	app.post(
 		'/api/subject/create',
 		[authJwt.verifyToken, authJwt.isProfessor],

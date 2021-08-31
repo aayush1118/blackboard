@@ -16,15 +16,23 @@ exports.join = (req, res) => {
 				{ userId: req.userId },
 				{ subjects: [...profile.subjects, subject._id] },
 				{ new: true }
-			).exec((err, profile) => {
+			).exec(err => {
 				if (err) {
 					res.send({ success: false, message: err });
 					return;
 				}
-				res.send({
-					success: true,
-					message: 'joined subject',
-					data: subject,
+				Subject.findByIdAndUpdate(subject._id, {
+					students: [...subject.students, req.userId],
+				}).exec(err => {
+					if (err) {
+						res.send({ success: false, message: err });
+						return;
+					}
+					res.send({
+						success: true,
+						message: 'joined subject',
+						data: subject,
+					});
 				});
 			});
 		});
@@ -72,6 +80,49 @@ exports.update = (req, res) => {
 			success: true,
 			message: 'updated subject successfully',
 			data: subject,
+		});
+	});
+};
+
+exports.getSubjects = (req, res) => {
+	Subject.find()
+		.$where(`this.students.includes(${req.params.id})`)
+		.exec((err, subjects) => {
+			if (err) {
+				res.send({ success: false, message: err });
+				return;
+			}
+			res.send({
+				success: true,
+				message: 'subjects retrieved!',
+				data: subjects,
+			});
+		});
+};
+
+exports.getSubjects = (req, res) => {
+	Profile.findOne({ userId: req.params.id }).exec(async (err, profile) => {
+		if (err) {
+			res.send({ success: false, message: err });
+			return;
+		}
+		//result variable
+		var result = [];
+		for (let i = 0; i < profile.subjects.length; i++) {
+			const subjectId = profile.subjects[i];
+
+			await Subject.findById(subjectId)
+				.then(subject => {
+					result.push(subject);
+				})
+				.catch(err => {
+					res.send({ success: false, message: err });
+				});
+		}
+		res.send({
+			success: true,
+			message: 'subjects retrieved!',
+			data: result,
 		});
 	});
 };
