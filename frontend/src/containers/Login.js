@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { withLayout } from '../components/Layout';
 import '../styles/_login.scss';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,15 +11,23 @@ const Login = props => {
 	const [currentView, setCurrentView] = useState('logIn');
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
-	const [email, setEmail] = useState('a@gmail.com');
+	const [email, setEmail] = useState('a1@gmail.com');
 	const [password, setPassword] = useState('11111111');
 	const [role, setRole] = useState('student');
 
 	const _h = func => e => func(e.target.value);
 
+	const auth = JSON.stringify(localStorage.getItem('auth'));
+
+	useEffect(() => {
+		if (auth && auth.accessToken) history.push('/student');
+	}, []);
+
 	const roles = ['student', 'teacher'];
 	const handleRegister = event => {
 		event.preventDefault();
+		let _role = role;
+		if (role == 'teacher') _role = 'professor';
 		callHttp({
 			url: `/auth/signup`,
 			method: 'POST',
@@ -28,17 +36,19 @@ const Login = props => {
 				lastname,
 				email,
 				password,
+				roles: [_role],
 			},
 		})
 			.then(res => {
-				if (res.status == 200) {
+				if (res.status == 200 && res.data.success) {
 					toast.success('Register Successfully!');
-					history.push('/student');
+					localStorage.setItem('auth', JSON.stringify(res.data.data));
+					history.push(`/${role}`);
 				} else {
-					toast.error('Something went wrong!');
+					toast.error(res.data?.message || 'Something went wrong!');
 				}
 			})
-			.catch(err => {
+			.catch(res => {
 				toast.error('Something went wrong!');
 			});
 		// notify();
@@ -46,18 +56,22 @@ const Login = props => {
 	};
 	const handleLogin = event => {
 		event.preventDefault();
+		let _role = role;
+		if (role == 'teacher') _role = 'professor';
 		callHttp({
 			url: `/auth/signin`,
 			method: 'POST',
 			data: {
-				username: email,
+				email,
 				password,
+				roles: [_role],
 			},
 		})
 			.then(res => {
-				if (res.status == 200) {
+				if (res.status == 200 && res.data.success) {
 					toast.success('Login Successfully!');
-					history.push('/student');
+					localStorage.setItem('auth', JSON.stringify(res.data.data));
+					history.push(`/${role}`);
 				} else {
 					toast.error('Something went wrong!');
 				}
@@ -65,8 +79,6 @@ const Login = props => {
 			.catch(err => {
 				toast.error('Something went wrong!');
 			});
-		// notify();
-		// history.push('/student');
 	};
 
 	const topBar = (
@@ -206,22 +218,8 @@ const Login = props => {
 				break;
 		}
 	};
-	return (
-		<section id='entry-page'>
-			<ToastContainer
-				position='top-center'
-				autoClose={2000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable={false}
-				pauseOnHover={false}
-			/>
-			{view()}
-		</section>
-	);
+
+	return <section id='entry-page'>{view()}</section>;
 };
 
 export default Login;

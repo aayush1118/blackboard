@@ -1,8 +1,8 @@
 /** @format */
 import React from 'react';
-import Sidebar from './student/Sidebar';
+import Sidebar from './teacher/Sidebar';
 
-export const withStudentLayout = ComposedComponent =>
+export const withTeacherLayout = ComposedComponent =>
 	class extends React.Component {
 		componentDidMount() {
 			const auth = JSON.parse(localStorage.getItem('auth'));

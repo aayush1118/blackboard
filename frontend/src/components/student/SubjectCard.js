@@ -14,9 +14,9 @@ export default function SubjectCard(props) {
 				<p>{teacher}</p>
 			</div>
 			<div className=' c-subject-card__img-wrapper'>
-				<img src='https://static.vecteezy.com/system/resources/thumbnails/002/002/403/small/man-with-beard-avatar-character-isolated-icon-free-vector.jpg' />
+				<img src='https://freeiconshop.com/wp-content/uploads/edd/book-flat.png' />
 			</div>
-			<div className='c-subject-card__btn'>Join Class</div>
+			{/* <div className='c-subject-card__btn'>Join Class</div> */}
 		</div>
 	);
 }

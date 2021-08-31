@@ -5,15 +5,15 @@ import { baseUrl } from '../projectSettings';
 
 export const callHttp = async ({ method = 'get', url, data, options }) => {
 	try {
-		console.log('http', data);
 		const auth = JSON.parse(localStorage.getItem('auth'));
 		let headers = {
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
 		};
 		if (auth) {
-			const { user, token } = auth;
-			headers = { ...headers, Authorization: `Bearer ${token}` };
+			const { accessToken } = auth;
+			headers = { ...headers, 'x-access-token': accessToken };
+			// headers = { ...headers, Authorization: `Bearer ${token}` };
 		}
 		if (options && options.headers) {
 			headers = { ...headers, ...options.headers };
