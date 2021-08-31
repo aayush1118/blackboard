@@ -18,7 +18,7 @@ const db = require('./app/models');
 const Role = db.role;
 
 const db_URI =
-	process.env.db_URI ||
+	process.env.MONGODB_URI ||
 	`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`;
 
 db.mongoose
@@ -39,6 +39,19 @@ db.mongoose
 require('./app/routes/auth.routes')(app);
 require('./app/routes/profile.routes')(app);
 require('./app/routes/subject.routes')(app);
+
+//serve react app
+//serve static assets
+if (process.env.NODE_ENV === 'production') {
+	console.log('active');
+	//set static folder
+	app.use(express.static('../frontend/build'));
+	app.get('/', (req, res) => {
+		res.sendFile(
+			path.resolve(__dirname, 'frontend', 'build', 'index.html')
+		);
+	});
+}
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
