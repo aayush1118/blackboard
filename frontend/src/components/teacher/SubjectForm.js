@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { callHttp } from '../../utility/callHttp';
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import moment from 'moment';
 
 export default function SubjectForm({ setViewScreen, setResData }) {
 	const [name, setName] = useState('');
@@ -11,11 +12,17 @@ export default function SubjectForm({ setViewScreen, setResData }) {
 
 	const handleCreate = event => {
 		event.preventDefault();
+		console.log(value);
+		let start = new Date();
+		let end = new Date();
+		start.setHours(value[0].substring(0, 2), value[0].substring(3, 5));
+		end.setHours(value[1].substring(0, 2), value[1].substring(3, 5));
 		const data = {
 			name,
-			timings: [{ start: value.start, end: value.end }],
+			timings: [{ start, end }],
 			assignment: [''],
 		};
+		console.log(data);
 		callHttp({
 			url: `/subject/create`,
 			method: 'POST',

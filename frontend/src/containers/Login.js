@@ -11,8 +11,8 @@ const Login = props => {
 	const [currentView, setCurrentView] = useState('logIn');
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
-	const [email, setEmail] = useState('a1@gmail.com');
-	const [password, setPassword] = useState('11111111');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 	const [role, setRole] = useState('student');
 
 	const _h = func => e => func(e.target.value);
@@ -56,15 +56,14 @@ const Login = props => {
 	};
 	const handleLogin = event => {
 		event.preventDefault();
-		let _role = role;
-		if (role == 'teacher') _role = 'professor';
+		// let _role = role;
+		// if (role == 'teacher') _role = 'professor';
 		callHttp({
 			url: `/auth/signin`,
 			method: 'POST',
 			data: {
 				email,
 				password,
-				roles: [_role],
 			},
 		})
 			.then(res => {
